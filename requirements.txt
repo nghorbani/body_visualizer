@@ -1,0 +1,8 @@
+opencv-python
+scikit-image
+imageio
+trimesh
+pyrender
+moviepy
+tqdm
+numpy

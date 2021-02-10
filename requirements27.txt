@@ -1,0 +1,8 @@
+opencv-python==3.4.3.18
+scikit-image
+imageio
+trimesh
+pyrender==1.4.11
+moviepy
+tqdm
+numpy
