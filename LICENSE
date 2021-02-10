@@ -75,13 +75,6 @@ You acknowledge that the Model & Software is a valuable scientific resource and 
 
 Citation:
 
-@inproceedings{SMPL-X:2019,
-  title = {Expressive Body Capture: 3D Hands, Face, and Body from a Single Image},
-  author = {Pavlakos, Georgios and Choutas, Vasileios and Ghorbani, Nima and Bolkart, Timo and Osman, Ahmed A. A.
-  and Tzionas, Dimitrios and Black, Michael J.},
-  booktitle = {Proceedings IEEE Conf. on Computer Vision and Pattern Recognition (CVPR)},
-  year = {2019}
-}
 
 Commercial licensing opportunities
 For commercial uses of the Software, please send email to ps-license@tue.mpg.de
