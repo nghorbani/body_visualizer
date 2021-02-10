@@ -11,16 +11,12 @@
 # Contact: ps-license@tuebingen.mpg.de
 #
 #
-# If you use this code in a research publication please consider citing the following:
-#
-# Expressive Body Capture: 3D Hands, Face, and Body from a Single Image <https://arxiv.org/abs/1904.05866>
 #
 #
 # Code Developed by:
 # Nima Ghorbani <https://nghorbani.github.io/>
 #
-# 2019.05.10
-
+# 2020.09.10
 
 from setuptools import setup, find_packages
 
