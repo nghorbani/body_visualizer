@@ -132,6 +132,37 @@ def imagearray2file(img_array, outpath=None, fps=30):
 
     return out_images
 
+def render_smpl_params(bm, body_parms):
+    '''
+    :param bm: pytorch body model with batch_size 1
+    :param pose_body: Nx21x3
+    :param trans: Nx3
+    :param betas: Nxnum_betas
+    :return: N x 400 x 400 x 3
+    '''
+
+    from human_body_prior.tools.omni_tools import copy2cpu as c2c
+    from body_visualizer.mesh.mesh_viewer import MeshViewer
+
+    imw, imh = 400, 400
+
+    mv = MeshViewer(width=imw, height=imh, use_offscreen=True)
+
+    faces = c2c(bm.f)
+
+    v = c2c(bm(**body_parms).v)
+
+    T, num_verts = v.shape[:-1]
+
+    images = []
+    for fIdx in range(T):
+
+        mesh = trimesh.base.Trimesh(v[fIdx], faces, vertex_colors=num_verts*colors['grey'])
+        mv.set_meshes([mesh], 'static')
+
+        images.append(mv.render())
+
+    return np.array(images).reshape(T, imw, imh, 3)
 
 def meshes_as_png(meshes, outpath=None, view_angles=[0, 180]):
     from body_visualizer.mesh.mesh_viewer import MeshViewer
