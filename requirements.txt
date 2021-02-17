@@ -6,3 +6,10 @@ pyrender
 moviepy
 tqdm
 numpy
+colour
+trimesh==3.9.5
+opencv-python==4.5.1.48
+pyrender==0.1.43
+PyOpenGL==3.1.0
+PyOpenGL_accelerate
+matplotlib==3.2.2
