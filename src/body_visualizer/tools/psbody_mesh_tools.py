@@ -1,7 +1,7 @@
 import numpy as np
 from psbody.mesh import Mesh
 from psbody.mesh.sphere import Sphere
-from body_visualizer.tools.psbody_mesh_cube import Cube
+from body_visualizer.mesh.psbody_mesh_cube import Cube
 
 def rotateXYZ(mesh_v, Rxyz):
     angle = np.radians(Rxyz[0])

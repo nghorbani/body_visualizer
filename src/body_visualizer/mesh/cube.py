@@ -78,20 +78,20 @@ class Cube(object):
         # return Mesh(v=v * self.scale + self.center, f=f, vc=np.tile(color, (v.shape[0], 1)))
         return trimesh.Trimesh(vertices=v * self.scale + self.center, faces=f, vertex_colors=np.tile(color, (v.shape[0], 1)))
 
-def points_to_cube(points, scale=0.01, vc = colors['red']):
+def points_to_cubes(points, radius=0.01, vc = colors['red']):
     '''
 
     :param points: Nx3 numpy array
-    :param scale:
+    :param radius: should have been called scale but kept radius for easier compatibility with spheres
     :param vc: either a 3-element normalized RGB vector or a list of them for each point
     :return:
     '''
     cubes = None
     for id in range(len(points)):
-        cur_cube = Cube( center= points[id].reshape(-1,3), scale=scale ).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
-        if cubes is None: spheres = cur_cube
+        cur_cube = Cube( center= points[id].reshape(-1,3), scale=radius ).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
+        if cubes is None: cubes = cur_cube
         else: cubes = trimesh.util.concatenate(cubes, cur_cube)
-    return spheres
+    return cubes
 
 
 if __name__ == '__main__':

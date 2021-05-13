@@ -103,7 +103,10 @@ def points_to_spheres(points, radius=0.01, vc = colors['red']):
     '''
     spheres = None
     for id in range(len(points)):
-        cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius ).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
+        if isinstance(radius, float):
+            cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius ).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
+        else:
+            cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius[id] ).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
         if spheres is None: spheres = cur_sphere
         else: spheres = trimesh.util.concatenate(spheres, cur_sphere)
     return spheres
