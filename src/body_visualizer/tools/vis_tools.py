@@ -181,3 +181,22 @@ def meshes_as_png(meshes, outpath=None, view_angles=[0, 180]):
 
     if outpath is not None: imagearray2file(images, outpath)
     return images
+
+
+def show_image(img_ndarray):
+    '''
+    Visualize rendered body images in Jupyter notebook
+    :param img_ndarray: Nxim_hxim_wx3
+    '''
+    import matplotlib.pyplot as plt
+    import cv2
+    fig = plt.figure(figsize=(4, 4), dpi=300)
+    ax = fig.gca()
+
+    img = img_ndarray.astype(np.uint8)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    ax.imshow(img)
+    plt.axis('off')
+
+    # fig.canvas.draw()
+    # return True
