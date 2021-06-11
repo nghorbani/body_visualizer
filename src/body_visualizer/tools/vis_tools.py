@@ -185,7 +185,7 @@ def meshes_as_png(meshes, outpath=None, view_angles=[0, 180]):
 
 def show_image(img_ndarray):
     '''
-    Visualize rendered body images in Jupyter notebook
+    Visualize rendered body images resulted from render_smpl_params in Jupyter notebook
     :param img_ndarray: Nxim_hxim_wx3
     '''
     import matplotlib.pyplot as plt
