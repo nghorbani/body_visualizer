@@ -182,7 +182,6 @@ def meshes_as_png(meshes, outpath=None, view_angles=[0, 180]):
     if outpath is not None: imagearray2file(images, outpath)
     return images
 
-
 def show_image(img_ndarray):
     '''
     Visualize rendered body images resulted from render_smpl_params in Jupyter notebook

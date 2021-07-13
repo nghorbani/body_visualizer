@@ -93,20 +93,20 @@ class Sphere(object):
         # http://mathworld.wolfram.com/Sphere-SphereIntersection.html
         return (np.pi * (R + r - d) ** 2 * (d ** 2 + 2 * d * r - 3 * r * r + 2 * d * R + 6 * r * R - 3 * R * R)) / (12 * d)
 
-def points_to_spheres(points, radius=0.01, vc = colors['red']):
+def points_to_spheres(points, radius=0.01, point_color = colors['red']):
     '''
 
     :param points: Nx3 numpy array
     :param radius:
-    :param vc: either a 3-element normalized RGB vector or a list of them for each point
+    :param point_color: either a 3-element normalized RGB vector or a list of them for each point
     :return:
     '''
     spheres = None
     for id in range(len(points)):
         if isinstance(radius, float):
-            cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius ).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
+            cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius ).to_mesh(color = point_color if len(point_color) == 3 and not isinstance(point_color[0], list) else point_color[id])
         else:
-            cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius[id] ).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
+            cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius[id] ).to_mesh(color = point_color if len(point_color) == 3 and not isinstance(point_color[0], list) else point_color[id])
         if spheres is None: spheres = cur_sphere
         else: spheres = trimesh.util.concatenate(spheres, cur_sphere)
     return spheres

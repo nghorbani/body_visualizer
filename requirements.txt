@@ -13,3 +13,4 @@ pyrender==0.1.43
 PyOpenGL==3.1.0
 PyOpenGL_accelerate
 matplotlib==3.2.2
+loguru
