@@ -15,7 +15,7 @@ class Cube(object):
     def __str__(self):
         return "%s:%s" % (self.center, self.radius)
 
-    def to_mesh(self, color=name_to_rgb['red']):
+    def to_mesh(self, point_color=name_to_rgb['red']):
         v = np.array([[-1., -1., -1.],
                [-1., -1.,  1.],
                [-1.,  1.,  1.],
@@ -55,9 +55,9 @@ class Cube(object):
                    [20, 21, 22],
                    [20, 22, 23]])
 
-        return Mesh(v=v * self.radius + self.center, f=f, vc=np.tile(color, (v.shape[0], 1)))
+        return Mesh(v=v * self.radius + self.center, f=f, vc=np.tile(point_color, (v.shape[0], 1)))
 
-def points_to_cubes(points, radius=0.01, color = colors['red']):
+def points_to_cubes(points, radius=0.01, point_color = colors['red']):
     '''
     :param points: Nx3 numpy array
     :param radius:
@@ -67,9 +67,9 @@ def points_to_cubes(points, radius=0.01, color = colors['red']):
     cubes = Mesh(v=[], f=[])
     for id in range(len(points)):
         if isinstance(radius, float):
-            cubes.concatenate_mesh(Cube( center= points[id].reshape(-1,3), radius=radius ).to_mesh( color = color if len(color)==3 and not isinstance(color[0], list) else color[id]))
+            cubes.concatenate_mesh(Cube( center= points[id].reshape(-1,3), radius=radius ).to_mesh( point_color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id]))
         else:
-            cubes.concatenate_mesh(Cube( center= points[id].reshape(-1,3), radius=radius[id] ).to_mesh( color = color if len(color)==3 and not isinstance(color[0], list) else color[id]))
+            cubes.concatenate_mesh(Cube( center= points[id].reshape(-1,3), radius=radius[id] ).to_mesh( point_color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id]))
     return cubes
 
 

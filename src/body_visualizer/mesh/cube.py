@@ -75,22 +75,22 @@ class Cube(object):
                    [20, 21, 22],
                    [20, 22, 23]])
 
-        # return Mesh(v=v * self.radius + self.center, f=f, vc=np.tile(color, (v.shape[0], 1)))
+        # return Mesh(v=v * self.radius + self.center, f=f, point_color=np.tile(color, (v.shape[0], 1)))
         return trimesh.Trimesh(vertices=v * self.radius + self.center, faces=f, vertex_colors=np.tile(color, (v.shape[0], 1)))
 
-def points_to_cubes(points, radius=0.01, vc = colors['red']):
+def points_to_cubes(points, radius=0.01, point_color = colors['red']):
     '''
     :param points: Nx3 numpy array
     :param radius: should have been called radius but kept radius for easier compatibility with spheres
-    :param vc: either a 3-element normalized RGB vector or a list of them for each point
+    :param point_color: either a 3-element normalized RGB vector or a list of them for each point
     :return:
     '''
     cubes = None
     for id in range(len(points)):
         if isinstance(radius, float):
-            cur_cube = Cube( center= points[id].reshape(-1,3), radius=radius ).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
+            cur_cube = Cube( center= points[id].reshape(-1,3), radius=radius ).to_mesh( color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id])
         else:
-            cur_cube = Cube( center= points[id].reshape(-1,3), radius=radius[id]).to_mesh( color = vc if len(vc)==3 and not isinstance(vc[0], list) else vc[id])
+            cur_cube = Cube( center= points[id].reshape(-1,3), radius=radius[id]).to_mesh( color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id])
 
         if cubes is None: cubes = cur_cube
         else: cubes = trimesh.util.concatenate(cubes, cur_cube)
