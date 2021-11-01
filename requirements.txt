@@ -1,7 +1,6 @@
 opencv-python
 scikit-image
 imageio
-trimesh
 moviepy
 tqdm
 numpy
