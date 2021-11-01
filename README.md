@@ -18,7 +18,7 @@ Set of tools to visualize and render SMPL family body parameters.
 
 Clone this repo and run the following from the root folder:
 ```bash
-python install -r requirements.txt
+pip install -r requirements.txt
 python setup.py develop
 ```
 
