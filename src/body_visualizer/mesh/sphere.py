@@ -28,7 +28,7 @@ __all__ = ['Sphere', 'points_to_spheres']
 class Sphere(object):
     def __init__(self, center, radius):
         if(center.flatten().shape != (3,)):
-            raise Exception("Center should have size(1,3) instead of %s" %(','.join(list(center.shape))))
+            raise Exception(f"Center should have size(1,3) instead of {','.join(list(center.shape))}")
         self.center = center.flatten()
         self.radius = radius
 
