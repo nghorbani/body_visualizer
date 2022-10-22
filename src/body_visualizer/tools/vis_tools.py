@@ -25,7 +25,13 @@ import numpy as np
 import cv2
 import os
 import trimesh
-
+# import platform
+# if 'Ubuntu' in platform.version():
+#     print('In Ubuntu, using osmesa mode for rendering')
+#     os.environ['PYOPENGL_PLATFORM'] = 'osmesa'
+# else:
+#     print('In other system, using egl mode for rendering')
+os.environ['PYOPENGL_PLATFORM'] = 'egl'
 
 
 colors = {
@@ -132,7 +138,7 @@ def imagearray2file(img_array, outpath=None, fps=30):
 
     return out_images
 
-def render_smpl_params(bm, body_parms):
+def render_smpl_params(bm, body_parms, rot_body=None):
     '''
     :param bm: pytorch body model with batch_size 1
     :param pose_body: Nx21x3
@@ -143,11 +149,12 @@ def render_smpl_params(bm, body_parms):
 
     from human_body_prior.tools.omni_tools import copy2cpu as c2c
     from body_visualizer.mesh.mesh_viewer import MeshViewer
+    from body_visualizer.tools.mesh_tools import rotateXYZ
 
-    imw, imh = 400, 400
+    imw, imh = 800, 800
 
     mv = MeshViewer(width=imw, height=imh, use_offscreen=True)
-
+    mv.set_cam_trans([0, 0.5, 3.0])
     faces = c2c(bm.f)
 
     v = c2c(bm(**body_parms).v)
@@ -156,8 +163,11 @@ def render_smpl_params(bm, body_parms):
 
     images = []
     for fIdx in range(T):
+        verts = v[fIdx]
+        if rot_body is not None:
+            verts = rotateXYZ(verts, rot_body)
+        mesh = trimesh.base.Trimesh(verts, faces, vertex_colors=num_verts*colors['grey'])
 
-        mesh = trimesh.base.Trimesh(v[fIdx], faces, vertex_colors=num_verts*colors['grey'])
         mv.set_meshes([mesh], 'static')
 
         images.append(mv.render())
