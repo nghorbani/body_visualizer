@@ -23,7 +23,7 @@ def pngs2mp4(png_file_pattern, out_path, fps=60):
         count += 1
         time.sleep(1.0)
         continue
-    logger.sucess(f'Created {out_path}\n')
+    logger.success(f'Created {out_path}\n')
     return True
 
 
