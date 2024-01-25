@@ -178,7 +178,7 @@ def meshes_as_png(meshes, outpath=None, view_angles=[0, 180]):
 
     imw = 800
     imh = 800
-    mv = MeshViewer(imh, imw)
+    mv = MeshViewer(width=imw, height=imh)
     mv.set_cam_trans([0, -.5, 1.75])
     images = np.zeros([len(meshes), len(view_angles), 1, imw, imh, 3])
     for mIdx, mesh in enumerate(meshes):
