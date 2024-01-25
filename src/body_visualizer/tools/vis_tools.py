@@ -25,13 +25,12 @@ import numpy as np
 import cv2
 import os
 import trimesh
-# import platform
-# if 'Ubuntu' in platform.version():
-#     print('In Ubuntu, using osmesa mode for rendering')
-#     os.environ['PYOPENGL_PLATFORM'] = 'osmesa'
-# else:
-#     print('In other system, using egl mode for rendering')
-os.environ['PYOPENGL_PLATFORM'] = 'egl'
+
+# Depending on operating system, one may need to set this environment variable, like this:
+#   os.environ['PYOPENGL_PLATFORM'] = 'egl'
+# See related issues that may provide leads to fix it if needed:
+#   https://github.com/mkocabas/VIBE/issues/101
+#   https://github.com/MPI-IS/mesh/issues/49#issuecomment-705194582
 
 
 colors = {
