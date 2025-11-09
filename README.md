@@ -10,17 +10,43 @@ Set of tools to visualize and render SMPL family body parameters.
   * [Contact](#contact)
 
 ## Installation
-**Requirements**
-- Python 3.7
-- [PyTorch 1.7.1](https://pytorch.org/get-started)
-- [Human Body Prior](https://github.com/nghorbani/human_body_prior)
-- [Pyrender](https://pyrender.readthedocs.io/en/latest/install/index.html#osmesa) for visualizations
+This repository now ships a `pyproject.toml` that is consumed by [`uv`](https://github.com/astral-sh/uv), and the legacy `setup.py` / `requirements.txt` pair has been removed.
 
-Clone this repo and run the following from the root folder:
+### Requirements
+- Python 3.11–3.12 (PyTorch doesn't publish Windows wheels for newer CPython releases yet)
+- [`uv`](https://docs.astral.sh/uv/getting-started/installation/) (manages the virtual environment and lock file)
+- [Human Body Prior](https://github.com/nghorbani/human_body_prior) runtime assets
+
+### Sync the environment
+From the repository root run:
 ```bash
-pip install -r requirements.txt
-python setup.py develop
+uv sync
 ```
+This creates/updates `.venv` and installs the minimal runtime dependencies defined in `pyproject.toml`. Developers can pull in linting and testing tools (Ruff, pytest, coverage, mypy) with:
+```bash
+uv sync --extra dev
+```
+Run Ruff via:
+```bash
+uv run ruff check .
+uv run ruff format --select I  # optional: import re-ordering only
+```
+
+### Install the package
+`uv pip install .` will install the library into your active environment. Extras are available for optional features, for example:
+```bash
+uv pip install ".[pl]"     # add Lightning integrations on top of extras
+uv pip install ".[psbody]"     # psbody.mesh git bindings (Linux-friendly wheels only)
+```
+`pytorch3d` remains opt-in and is intentionally not part of any default extra. The `psbody` extra fetches the legacy `psbody-mesh` repository from GitHub (via `psbody-mesh @ git+https://github.com/MPI-IS/mesh.git@v0.4`), which typically publishes Linux wheels; plan accordingly if you are on Windows or macOS. If you previously synced an environment using the old package name, run `uv lock --rebuild` (or delete `uv.lock`) before installing the extras to refresh the dependency graph.
+
+### CUDA note
+The core dependency list tracks the CPU-only PyTorch wheel (`torch>=2.5,<2.6`). Install the GPU build that matches your CUDA toolkit when needed:
+```bash
+# Example for CUDA 12.4 users
+uv pip install --index-url https://download.pytorch.org/whl/cu124 "torch==2.5.1+cu124" --no-deps
+```
+Repeat the command with the appropriate index URL/version for your platform as documented on [pytorch.org](https://pytorch.org/get-started/locally/).
 
 ## Usage
 For sample code refer to [VPoser repo](https://github.com/nghorbani/human_body_prior)
