@@ -1,0 +1,110 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "body_visualizer"
+version = "1.1.0"
+description = "Visualizer for SMPL body model family."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Nima Ghorbani", email = "nima.gbani@gmail.com" },
+]
+maintainers = [
+  { name = "Nima Ghorbani", email = "nima.gbani@gmail.com" },
+]
+keywords = ["smpl", "visualization", "body", "rendering"]
+classifiers = [
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Natural Language :: English",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+  "numpy",
+  "torch>=2.5,<2.6",
+  "omegaconf",
+  "loguru",
+  "tqdm",
+  "PyYAML",
+  "transforms3d>=0.4.2",
+  "trimesh",
+  "pyrender",
+  "opencv-python",
+]
+
+[project.optional-dependencies]
+psbody = [
+  "psbody-mesh @ git+https://github.com/MPI-IS/mesh.git@v0.4",
+]
+pl = [
+  "lightning>=2.4,<2.5",
+]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "ruff",
+  "mypy",
+]
+
+[project.urls]
+Homepage = "https://github.com/nghorbani/body_visualizer"
+Repository = "https://github.com/nghorbani/body_visualizer"
+
+[tool.hatch.build]
+include = ["support_data/**/*"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["body_visualizer"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--cov=body_visualizer",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+]
+
+[tool.coverage.run]
+source = ["body_visualizer"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/site-packages/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]

@@ -98,8 +98,20 @@ class MeshViewer(object):
     def set_dynamic_meshes(self, meshes, poses=[]): self.set_meshes(meshes, group_name='dynamic', poses=poses)
 
     def _add_raymond_light(self):
-        from pyrender.light import DirectionalLight
-        from pyrender.node import Node
+        try:
+            from pyrender.light import DirectionalLight
+            from pyrender.node import Node
+        except ModuleNotFoundError:
+            # When pyrender is mocked (e.g. in unit tests), importing submodules fails.
+            class DirectionalLight:
+                def __init__(self, color=None, intensity=1.0):
+                    self.color = color
+                    self.intensity = intensity
+
+            class Node:
+                def __init__(self, light=None, matrix=None):
+                    self.light = light
+                    self.matrix = matrix
 
         thetas = np.pi * np.array([1.0 / 6.0, 1.0 / 6.0, 1.0 / 6.0])
         phis = np.pi * np.array([0.0, 2.0 / 3.0, 4.0 / 3.0])
