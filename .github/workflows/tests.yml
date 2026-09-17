@@ -19,28 +19,25 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-
     - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y libosmesa6-dev freeglut3-dev libgl1-mesa-dev
 
+    - name: Install uv and Python ${{ matrix.python-version }}
+      uses: astral-sh/setup-uv@v6
+      with:
+        python-version: ${{ matrix.python-version }}
+        enable-cache: true
+
     - name: Install package with dev dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev]"
+      run: uv sync --extra dev --frozen
 
     - name: Lint with ruff
-      run: |
-        ruff check body_visualizer tests
+      run: uv run ruff check .
 
     - name: Run tests with pytest
-      run: |
-        pytest
+      run: uv run pytest
 
     - name: Upload coverage reports to Codecov
       if: matrix.python-version == '3.11' && matrix.os == 'ubuntu-latest'
