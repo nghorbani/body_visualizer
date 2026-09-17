@@ -60,13 +60,20 @@ class MeshViewer(object):
             self.viewer = pyrender.OffscreenRenderer(*self.figsize)
             self.use_raymond_lighting(4.)
         else:
-            self.viewer = Viewer(self.scene, use_raymond_lighting=True, viewport_size=self.figsize, cull_faces=False, run_in_thread=True)
+            self.viewer = Viewer(
+                self.scene,
+                use_raymond_lighting=True,
+                viewport_size=self.figsize,
+                cull_faces=False,
+                run_in_thread=True,
+            )
 
     def set_background_color(self, color=colors['white']):
         self.scene.bg_color = color
 
     def set_cam_trans(self, trans= [0, 0, 3.0]):
-        if isinstance(trans, list): trans = np.array(trans)
+        if isinstance(trans, list):
+            trans = np.array(trans)
         camera_pose = np.eye(4)
         camera_pose[:3, 3] = trans
         self.scene.set_pose(self.camera_node, pose=camera_pose)
@@ -160,8 +167,9 @@ class MeshViewer(object):
         from pyrender.constants import RenderFlags
 
         flags = RenderFlags.SHADOWS_DIRECTIONAL
-        if RGBA: flags |=  RenderFlags.RGBA
-        if render_wireframe is not None and render_wireframe==True:
+        if RGBA:
+            flags |= RenderFlags.RGBA
+        if render_wireframe:
             flags |= RenderFlags.ALL_WIREFRAME
         elif self.render_wireframe:
             flags |= RenderFlags.ALL_WIREFRAME

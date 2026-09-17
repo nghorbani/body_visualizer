@@ -76,7 +76,11 @@ class Sphere(object):
                       [12, 38, 42], [42, 37, 10]]) - 1
 
         # return Mesh(v=v * self.radius + self.center, f=f, vc=np.tile(color, (v.shape[0], 1)))
-        return trimesh.Trimesh(vertices=v * self.radius + self.center, faces=f, vertex_colors=np.tile(color, (v.shape[0], 1)))
+        return trimesh.Trimesh(
+            vertices=v * self.radius + self.center,
+            faces=f,
+            vertex_colors=np.tile(color, (v.shape[0], 1)),
+        )
 
     def has_inside(self, point):
         return np.linalg.norm(point - self.center) <= self.radius
@@ -93,7 +97,8 @@ class Sphere(object):
             return (4 * np.pi * (r ** 3)) / 3
 
         # http://mathworld.wolfram.com/Sphere-SphereIntersection.html
-        return (np.pi * (R + r - d) ** 2 * (d ** 2 + 2 * d * r - 3 * r * r + 2 * d * R + 6 * r * R - 3 * R * R)) / (12 * d)
+        cap_term = d ** 2 + 2 * d * r - 3 * r * r + 2 * d * R + 6 * r * R - 3 * R * R
+        return (np.pi * (R + r - d) ** 2 * cap_term) / (12 * d)
 
 def points_to_spheres(points, radius=0.01, point_color = colors['red']):
     '''
@@ -104,11 +109,13 @@ def points_to_spheres(points, radius=0.01, point_color = colors['red']):
     :return:
     '''
     spheres = None
+    shared_color = len(point_color) == 3 and not isinstance(point_color[0], list)
     for id in range(len(points)):
-        if isinstance(radius, float):
-            cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius ).to_mesh(color = point_color if len(point_color) == 3 and not isinstance(point_color[0], list) else point_color[id])
+        cur_radius = radius if isinstance(radius, float) else radius[id]
+        cur_color = point_color if shared_color else point_color[id]
+        cur_sphere = Sphere(center=points[id].reshape(-1, 3), radius=cur_radius).to_mesh(color=cur_color)
+        if spheres is None:
+            spheres = cur_sphere
         else:
-            cur_sphere = Sphere( center= points[id].reshape(-1,3), radius=radius[id] ).to_mesh(color = point_color if len(point_color) == 3 and not isinstance(point_color[0], list) else point_color[id])
-        if spheres is None: spheres = cur_sphere
-        else: spheres = trimesh.util.concatenate(spheres, cur_sphere)
+            spheres = trimesh.util.concatenate(spheres, cur_sphere)
     return spheres

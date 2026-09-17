@@ -1,3 +1,5 @@
+import numpy as np
+
 
 def apply_mesh_tranfsormations_(meshes, transf):
     '''
@@ -8,8 +10,6 @@ def apply_mesh_tranfsormations_(meshes, transf):
     '''
     for i in range(len(meshes)):
         meshes[i] = meshes[i].apply_transform(transf)
-
-import numpy as np
 
 
 def rotateXYZ(mesh_v, Rxyz):

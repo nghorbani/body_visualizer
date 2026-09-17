@@ -66,11 +66,11 @@ def points_to_cubes(points, radius=0.01, point_color = colors['red']):
     :return:
     '''
     cubes = Mesh(v=[], f=[])
+    shared_color = len(point_color) == 3 and not isinstance(point_color[0], list)
     for id in range(len(points)):
-        if isinstance(radius, float):
-            cubes.concatenate_mesh(Cube( center= points[id].reshape(-1,3), radius=radius ).to_mesh( point_color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id]))
-        else:
-            cubes.concatenate_mesh(Cube( center= points[id].reshape(-1,3), radius=radius[id] ).to_mesh( point_color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id]))
+        cur_radius = radius if isinstance(radius, float) else radius[id]
+        cur_color = point_color if shared_color else point_color[id]
+        cubes.concatenate_mesh(Cube(center=points[id].reshape(-1, 3), radius=cur_radius).to_mesh(point_color=cur_color))
     return cubes
 
 

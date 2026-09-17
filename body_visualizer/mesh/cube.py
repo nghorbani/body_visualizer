@@ -23,7 +23,7 @@ import trimesh
 
 from body_visualizer.tools.vis_tools import colors
 
-__all__ = ['Cube', 'points_to_cube']
+__all__ = ['Cube', 'points_to_cubes']
 
 
 class Cube(object):
@@ -77,7 +77,11 @@ class Cube(object):
                    [20, 22, 23]])
 
         # return Mesh(v=v * self.radius + self.center, f=f, point_color=np.tile(color, (v.shape[0], 1)))
-        return trimesh.Trimesh(vertices=v * self.radius + self.center, faces=f, vertex_colors=np.tile(color, (v.shape[0], 1)))
+        return trimesh.Trimesh(
+            vertices=v * self.radius + self.center,
+            faces=f,
+            vertex_colors=np.tile(color, (v.shape[0], 1)),
+        )
 
 def points_to_cubes(points, radius=0.01, point_color = colors['red']):
     '''
@@ -87,14 +91,15 @@ def points_to_cubes(points, radius=0.01, point_color = colors['red']):
     :return:
     '''
     cubes = None
+    shared_color = len(point_color) == 3 and not isinstance(point_color[0], list)
     for id in range(len(points)):
-        if isinstance(radius, float):
-            cur_cube = Cube( center= points[id].reshape(-1,3), radius=radius ).to_mesh( color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id])
+        cur_radius = radius if isinstance(radius, float) else radius[id]
+        cur_color = point_color if shared_color else point_color[id]
+        cur_cube = Cube(center=points[id].reshape(-1, 3), radius=cur_radius).to_mesh(color=cur_color)
+        if cubes is None:
+            cubes = cur_cube
         else:
-            cur_cube = Cube( center= points[id].reshape(-1,3), radius=radius[id]).to_mesh( color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id])
-
-        if cubes is None: cubes = cur_cube
-        else: cubes = trimesh.util.concatenate(cubes, cur_cube)
+            cubes = trimesh.util.concatenate(cubes, cur_cube)
     return cubes
 
 

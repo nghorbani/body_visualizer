@@ -44,7 +44,6 @@ colors = {
     'blue': [.0, .0, 1.],
 
     'offwhite': [.8, .9, .9],
-    'white': [1., 1., 1.],
     'orange': [1., .2, 0],
 
     'grey': [.7, .7, .7],
@@ -68,7 +67,8 @@ def imagearray2file(img_array, outpath=None, fps=30):
 
     if outpath is not None:
         outdir = os.path.dirname(outpath)
-        if not os.path.exists(outdir): os.makedirs(outdir)
+        if not os.path.exists(outdir):
+            os.makedirs(outdir)
 
     if not isinstance(img_array, np.ndarray) or img_array.ndim < 6:
         raise ValueError('img_array should be a numpy array of shape RxCxTxwidthxheightx3')
@@ -97,7 +97,8 @@ def imagearray2file(img_array, outpath=None, fps=30):
 
                 img = cv2.cvtColor(out_images[tIdx], cv2.COLOR_BGR2RGB)
                 cv2.imwrite(cur_outpath, img)
-                while not os.path.exists(cur_outpath): continue  # wait until the snapshot is written to the disk
+                while not os.path.exists(cur_outpath):
+                    continue  # wait until the snapshot is written to the disk
         elif ext == 'gif':
             import imageio
             with imageio.get_writer(outpath, mode='I', fps = fps) as writer:
@@ -130,7 +131,7 @@ def imagearray2file(img_array, outpath=None, fps=30):
             video.release()
             try:
                 cv2.destroyAllWindows()
-            except:
+            except Exception:
                 pass
 
     return out_images
@@ -182,12 +183,15 @@ def meshes_as_png(meshes, outpath=None, view_angles=[0, 180]):
     images = np.zeros([len(meshes), len(view_angles), 1, imw, imh, 3])
     for mIdx, mesh in enumerate(meshes):
         for rId, angle in enumerate(view_angles):
-            if angle != 0: mesh.apply_transform(trimesh.transformations.rotation_matrix(np.radians(angle), (0, 1, 0)))
+            if angle != 0:
+                mesh.apply_transform(trimesh.transformations.rotation_matrix(np.radians(angle), (0, 1, 0)))
             mv.set_meshes([mesh], group_name='static')
             images[mIdx, rId, 0] = cv2.cvtColor(mv.render(render_wireframe=False), cv2.COLOR_BGR2RGB)
-            if angle != 0: mesh.apply_transform(trimesh.transformations.rotation_matrix(np.radians(-angle), (0, 1, 0)))
+            if angle != 0:
+                mesh.apply_transform(trimesh.transformations.rotation_matrix(np.radians(-angle), (0, 1, 0)))
 
-    if outpath is not None: imagearray2file(images, outpath)
+    if outpath is not None:
+        imagearray2file(images, outpath)
     return images
 
 def show_image(img_ndarray):

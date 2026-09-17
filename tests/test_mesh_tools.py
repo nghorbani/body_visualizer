@@ -142,7 +142,6 @@ class TestApplyMeshTransformations:
         faces = np.array([[0, 1, 2]])
         mesh = trimesh.Trimesh(vertices=vertices, faces=faces)
         meshes = [mesh]
-        original_id = id(meshes[0])
 
         translation = np.eye(4)
         translation[:3, 3] = [1, 0, 0]
