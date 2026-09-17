@@ -86,14 +86,21 @@ class MeshViewer(object):
         if len(poses) < 1:
             for mid, mesh in enumerate(meshes):
                 if isinstance(mesh, trimesh.Trimesh):
-                    mesh = pyrender.Mesh.from_trimesh(mesh)
+                    mesh = self._to_pyrender_mesh(mesh)
                 self.scene.add(mesh, '%s-mesh-%2d'%(group_name, mid))
         else:
             for mid, iter_value in enumerate(zip(meshes, poses)):
                 mesh, pose = iter_value
                 if isinstance(mesh, trimesh.Trimesh):
-                    mesh = pyrender.Mesh.from_trimesh(mesh)
+                    mesh = self._to_pyrender_mesh(mesh)
                 self.scene.add(mesh, '%s-mesh-%2d'%(group_name, mid), pose)
+
+    @staticmethod
+    def _to_pyrender_mesh(mesh):
+        # pyrender refuses to smooth a mesh that carries per-face colors
+        # ("Cannot use face colors with a smooth mesh"), so keep those flat.
+        smooth = getattr(getattr(mesh, 'visual', None), 'kind', None) != 'face'
+        return pyrender.Mesh.from_trimesh(mesh, smooth=smooth)
 
     def set_static_meshes(self, meshes, poses=[]): self.set_meshes(meshes, group_name='static', poses=poses)
     def set_dynamic_meshes(self, meshes, poses=[]): self.set_meshes(meshes, group_name='dynamic', poses=poses)
