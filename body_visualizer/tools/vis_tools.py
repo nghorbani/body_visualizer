@@ -21,10 +21,12 @@
 #
 # 2018.01.02
 
-import numpy as np
-import cv2
 import os
+
+import cv2
+import numpy as np
 import trimesh
+
 # import platform
 # if 'Ubuntu' in platform.version():
 #     print('In Ubuntu, using osmesa mode for rendering')
@@ -97,7 +99,7 @@ def imagearray2file(img_array, outpath=None, fps=30):
                     cur_outpath = outpath.replace('.%s'%ext, '_%03d.%s'%(tIdx, ext))
                 else:
                     cur_outpath = outpath
-                    
+
                 img = cv2.cvtColor(out_images[tIdx], cv2.COLOR_BGR2RGB)
                 cv2.imwrite(cur_outpath, img)
                 while not os.path.exists(cur_outpath): continue  # wait until the snapshot is written to the disk
@@ -148,6 +150,7 @@ def render_smpl_params(bm, body_parms, rot_body=None):
     '''
 
     from human_body_prior.tools.omni_tools import copy2cpu as c2c
+
     from body_visualizer.mesh.mesh_viewer import MeshViewer
     from body_visualizer.tools.mesh_tools import rotateXYZ
 
@@ -197,8 +200,8 @@ def show_image(img_ndarray):
     Visualize rendered body images resulted from render_smpl_params in Jupyter notebook
     :param img_ndarray: Nxim_hxim_wx3
     '''
-    import matplotlib.pyplot as plt
     import cv2
+    import matplotlib.pyplot as plt
     fig = plt.figure(figsize=(4, 4), dpi=300)
     ax = fig.gca()
 

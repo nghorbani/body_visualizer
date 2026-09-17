@@ -18,19 +18,20 @@
 # Vassilis Choutas <https://ps.is.tuebingen.mpg.de/employees/vchoutas>
 # 2018.01.02
 
-import os
 
 # if 'GPU_DEVICE_ORDINAL' in os.environ:
 #     print('You are rendering on the cluster')
-#     
+#
 
-import numpy as np
-from body_visualizer.tools.vis_tools import colors
-import trimesh
-import pyrender
 import sys
+
 import cv2
+import numpy as np
+import pyrender
+import trimesh
 from pyrender import Viewer
+
+from body_visualizer.tools.vis_tools import colors
 
 __all__ = ['MeshViewer']
 
@@ -169,9 +170,9 @@ class MeshViewer(object):
         cv2.imwrite(fname, color_img)
 
 if __name__ == '__main__':
-    from human_body_prior.tools.omni_tools import copy2cpu as c2c
     from human_body_prior.body_model.body_model import BodyModel
-    from supercap.marker_layout_detection.tools import marker_layout_as_points, equal_aspect_ratio, visualize3DData
+    from human_body_prior.tools.omni_tools import copy2cpu as c2c
+    from supercap.marker_layout_detection.tools import marker_layout_as_points
 
     bodymodel_fname = '/ps/project/common/moshpp/smplx/unlocked_head/neutral/model.npz'
     body = BodyModel(bodymodel_fname)()
