@@ -14,9 +14,10 @@ import trimesh
 sys.modules['pyrender'] = MagicMock()
 sys.modules['pyrender.constants'] = MagicMock()
 
-from body_visualizer.mesh import mesh_viewer as mesh_viewer_module
-from body_visualizer.mesh.mesh_viewer import MeshViewer
-from body_visualizer.tools.vis_tools import colors
+# These imports have to follow the mocking above, hence the noqa.
+from body_visualizer.mesh import mesh_viewer as mesh_viewer_module  # noqa: E402
+from body_visualizer.mesh.mesh_viewer import MeshViewer  # noqa: E402
+from body_visualizer.tools.vis_tools import colors  # noqa: E402
 
 FAKE_RENDER_FLAGS = SimpleNamespace(
     SHADOWS_DIRECTIONAL=1,

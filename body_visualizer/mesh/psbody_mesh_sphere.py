@@ -13,10 +13,10 @@ def points_to_spheres(points, radius=0.01, point_color = colors['red']):
     :return:
     '''
     spheres = Mesh(v=[], f=[])
+    shared_color = len(point_color) == 3 and not isinstance(point_color[0], list)
     for id in range(len(points)):
-        if isinstance(radius, float):
-            spheres.concatenate_mesh(Sphere( center= points[id].reshape(-1,3), radius=radius ).to_mesh( color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id]))
-        else:
-            spheres.concatenate_mesh(Sphere( center= points[id].reshape(-1,3), radius=radius[id] ).to_mesh( color = point_color if len(point_color)==3 and not isinstance(point_color[0], list) else point_color[id]))
+        cur_radius = radius if isinstance(radius, float) else radius[id]
+        cur_color = point_color if shared_color else point_color[id]
+        spheres.concatenate_mesh(Sphere(center=points[id].reshape(-1, 3), radius=cur_radius).to_mesh(color=cur_color))
     return spheres
 

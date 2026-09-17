@@ -161,7 +161,11 @@ def test_render_smpl_params_with_rotation(monkeypatch):
     body_visualizer_mesh = sys.modules.setdefault("body_visualizer.mesh", ModuleType("body_visualizer.mesh"))
     monkeypatch.setattr(body_visualizer_mesh, "mesh_viewer", fake_mesh_viewer_module, raising=False)
 
-    monkeypatch.setattr(vis_tools.trimesh.base, "Trimesh", lambda verts, faces, vertex_colors: SimpleNamespace(verts=verts, faces=faces, colors=vertex_colors))
+    monkeypatch.setattr(
+        vis_tools.trimesh.base,
+        "Trimesh",
+        lambda verts, faces, vertex_colors: SimpleNamespace(verts=verts, faces=faces, colors=vertex_colors),
+    )
 
     result = vis_tools.render_smpl_params(FakeBodyModel(), {}, rot_body=np.array([1.0, 0.0, 0.0]))
 
