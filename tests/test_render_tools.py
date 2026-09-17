@@ -2,9 +2,9 @@
 """
 Tests for body_visualizer.tools.render_tools.
 """
-from types import ModuleType, SimpleNamespace
 import importlib
 import sys
+from types import ModuleType, SimpleNamespace
 
 import numpy as np
 import pytest

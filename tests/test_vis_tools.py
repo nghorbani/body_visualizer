@@ -2,9 +2,9 @@
 """
 Tests for body_visualizer.tools.vis_tools.
 """
+import sys
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
-import sys
 
 import numpy as np
 import pytest

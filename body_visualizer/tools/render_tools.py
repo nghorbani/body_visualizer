@@ -1,9 +1,6 @@
-import bpy
 import os
-import os.path as osp
-import sys
+
 from loguru import logger
-from math import radians
 
 
 def pngs2mp4(png_file_pattern, out_path, fps=60):
@@ -34,9 +31,10 @@ def pngs2gif(pngs, out_path):
     :param out_path: a .gif file path. the exention should be present
     :return:
     '''
+    import time
+
     import imageio
     from skimage import io
-    import time
     from skimage.transform import rescale
 
     with imageio.get_writer(out_path, mode='I') as writer:

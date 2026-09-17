@@ -20,6 +20,7 @@
 
 import numpy as np
 import trimesh
+
 from body_visualizer.tools.vis_tools import colors
 
 __all__ = ['Sphere', 'points_to_spheres']

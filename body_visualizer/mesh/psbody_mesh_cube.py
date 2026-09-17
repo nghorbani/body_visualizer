@@ -1,6 +1,7 @@
 import numpy as np
 from psbody.mesh import Mesh
 from psbody.mesh.colors import name_to_rgb
+
 from body_visualizer.tools.vis_tools import colors
 
 __all__ = ['Cube']

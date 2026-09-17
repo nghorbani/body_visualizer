@@ -2,8 +2,8 @@
 """
 Tests for body_visualizer.tools.notebook_tools.
 """
-from types import ModuleType
 import sys
+from types import ModuleType
 
 import numpy as np
 

@@ -1,7 +1,8 @@
-import numpy as np
 from psbody.mesh import Mesh
 from psbody.mesh.sphere import Sphere
+
 from body_visualizer.tools.vis_tools import colors
+
 
 def points_to_spheres(points, radius=0.01, point_color = colors['red']):
     '''
