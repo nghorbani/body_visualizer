@@ -17,3 +17,9 @@
 # Nima Ghorbani <https://nghorbani.github.io/>
 #
 # 2020.09.10
+
+from body_visualizer.gl_platform import configure_pyopengl_platform
+
+# PyOpenGL reads PYOPENGL_PLATFORM when it is first imported, so the choice has
+# to be made before any submodule imports pyrender.
+configure_pyopengl_platform()

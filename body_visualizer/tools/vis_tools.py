@@ -27,13 +27,8 @@ import cv2
 import numpy as np
 import trimesh
 
-# import platform
-# if 'Ubuntu' in platform.version():
-#     print('In Ubuntu, using osmesa mode for rendering')
-#     os.environ['PYOPENGL_PLATFORM'] = 'osmesa'
-# else:
-#     print('In other system, using egl mode for rendering')
-os.environ['PYOPENGL_PLATFORM'] = 'egl'
+# The PyOpenGL platform (egl, osmesa, ...) is chosen in body_visualizer.gl_platform
+# when the package is imported; set PYOPENGL_PLATFORM yourself to override it.
 
 
 colors = {
