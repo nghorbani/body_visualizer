@@ -41,15 +41,15 @@ def test_pngs2mp4_invokes_ffmpeg(monkeypatch, tmp_path, render_tools):
     monkeypatch.setattr(render_tools.os.path, "exists", fake_exists)
     monkeypatch.setattr(render_tools.os, "makedirs", fake_makedirs)
 
-    fake_logger = SimpleNamespace(info=[], sucess=[])
+    fake_logger = SimpleNamespace(info=[], success=[])
 
     def log_info(msg):
         fake_logger.info.append(msg)
 
     def log_success(msg):
-        fake_logger.sucess.append(msg)
+        fake_logger.success.append(msg)
 
-    monkeypatch.setattr(render_tools, "logger", SimpleNamespace(info=log_info, sucess=log_success))
+    monkeypatch.setattr(render_tools, "logger", SimpleNamespace(info=log_info, success=log_success))
 
     def fake_subprocess_call(cmd):
         fake_subprocess_call.called = cmd
@@ -70,7 +70,7 @@ def test_pngs2mp4_invokes_ffmpeg(monkeypatch, tmp_path, render_tools):
     assert fake_subprocess_call.called[0] == "ffmpeg"
     assert fake_sleep.calls == 1
     assert fake_logger.info
-    assert fake_logger.sucess
+    assert fake_logger.success
 
 
 def test_pngs2gif_writes_frames(monkeypatch, tmp_path, render_tools):
