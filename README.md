@@ -1,4 +1,6 @@
 # Body Visualizer
+[![Tests](https://github.com/nghorbani/body_visualizer/actions/workflows/tests.yml/badge.svg?branch=staging)](https://github.com/nghorbani/body_visualizer/actions/workflows/tests.yml)
+
 ![alt text](support_data/vposer_samples.png "Novel Human Poses Sampled From the VPoser.")
 ## Description
 Set of tools to visualize and render SMPL family body parameters.
@@ -47,6 +49,12 @@ The core dependency list tracks the CPU-only PyTorch wheel (`torch>=2.5,<2.6`). 
 uv pip install --index-url https://download.pytorch.org/whl/cu124 "torch==2.5.1+cu124" --no-deps
 ```
 Repeat the command with the appropriate index URL/version for your platform as documented on [pytorch.org](https://pytorch.org/get-started/locally/).
+
+### Rendering backend
+pyrender draws through PyOpenGL, which picks its platform from the `PYOPENGL_PLATFORM` environment variable the first time it is imported. Importing `body_visualizer` sets a default only when the variable is unset: `egl` on Linux, `osmesa` on macOS, nothing on other systems. Set the variable before the import to override it, for example on a headless Linux machine without a GPU:
+```bash
+PYOPENGL_PLATFORM=osmesa python your_script.py   # needs the OSMesa libraries, e.g. apt install libosmesa6-dev
+```
 
 ## Usage
 For sample code refer to [VPoser repo](https://github.com/nghorbani/human_body_prior)
